@@ -1,0 +1,42 @@
+.weather {
+    margin-bottom: -16px;
+    margin-top: -16px;
+    width: 32px;
+}
+
+#div-statistics {
+    overflow-y: auto;
+    height: 500px;
+}
+
+#search-by-country, #country-list{
+    margin-left: 20px !important;
+}
+
+.navbar-brand img {
+    margin-top: -8px;
+    height: 32px;
+}
+
+#country-list {
+    position: absolute;
+    top: 43px;
+    width: 196px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 2;
+    height: 178px;
+    display: none;
+}
+
+tbody tr{
+    cursor: pointer;
+}
+
+tbody tr:hover{
+    background-color: rgba(149, 155, 255, 0.25) !important;
+}
+
+tr:hover td {
+    background-color: transparent; /* or #000 */
+}
