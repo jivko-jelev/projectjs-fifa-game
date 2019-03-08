@@ -53,7 +53,10 @@ function sendingAjaxRequest(url, callbacks) {
 //     }
 // });
 
+var matches;
+
 sendingAjaxRequest('https://worldcup.sfg.io/matches', function (data) {
+    matches = data;
     var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
     for (let i = 0; i < data.length; i++) {
         let column = 0;
@@ -79,16 +82,70 @@ sendingAjaxRequest('https://worldcup.sfg.io/matches', function (data) {
         var tempCell = row.insertCell(column++);
         tempCell.innerHTML = data[i].weather.temp_celsius + '°C';
     }
+
+    function startingEleven(data) {
+        return `${data.shirt_number} ${data.name}` + (data.captain ? '(CAP)' : '') + '<br>';
+    }
+
+    function addRowHandlers() {
+        var rows = table.getElementsByTagName("tr");
+        for (i = 0; i < rows.length; i++) {
+            var currentRow = table.rows[i];
+            var createClickHandler = function (row) {
+                return function () {
+                    var cell = row.getElementsByTagName("td")[0];
+                    var id = cell.innerHTML;
+                    modal.style.display = "block";
+                    document.getElementById('modal-header').innerText = `${data[id - 1].home_team_country} - ${data[id - 1].away_team_country} ${data[id - 1].home_team.goals}:${data[id - 1].away_team.goals}`;
+                    var modalBody = document.getElementById('modal-body');
+                    modalBody.innerHTML = 'Starting Elevens\n<table><thead><tr><th>Home Team</th><th>Away Team</th></tr></thead><tbody id="tbody">';
+                    var tbody = document.getElementById('tbody');
+                    for (let i = 0; i < 11; i++) {
+                        tbody.innerHTML += `<tr>
+                            <td>${startingEleven(data[id - 1].home_team_statistics.starting_eleven[i])}</td>
+                            <td>${startingEleven(data[id - 1].away_team_statistics.starting_eleven[i])}</td>
+                            </tr>`;
+                    }
+                    modalBody.innerHTML += '</tbody>';
+                    console.log(data[id - 1]);
+                };
+            };
+            currentRow.onclick = createClickHandler(currentRow);
+        }
+    }
+
+    addRowHandlers();
+
+    var modal = document.getElementById('myModal');
+
+
+// Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+
+// When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+// When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 });
 
 
 var teams;
-sendingAjaxRequest('https://worldcup.sfg.io/teams', function (data) {
-    teams = data;
-});
 
 var searchByCountry = document.getElementById('search-by-country');
 searchByCountry.addEventListener('focus', function () {
+    if (teams === undefined) {
+        sendingAjaxRequest('https://worldcup.sfg.io/teams', function (data) {
+            teams = data;
+        });
+    }
     searchForCountry();
     document.getElementById('country-list').style.left = searchByCountry.style.left;
     document.getElementById('country-list').style.display = 'inherit';
@@ -106,6 +163,7 @@ searchByCountry.addEventListener('keyup', function () {
 
 function searchForCountry() {
     var countryList = document.getElementById('country-list');
+    document.getElementById('country-list').style.display = 'inherit';
     if (searchByCountry.value.trim() !== '') {
         countryList.innerHTML = '';
         for (let i = 0; i < teams.length; i++) {
@@ -125,6 +183,7 @@ function searchForCountry() {
 
             searchByCountry.value = getSelectedText();
             document.getElementById('country-list').style.display = 'none';
+            document.getElementById('search').scrollIntoView(true);
         }, false);
     } else {
         countryList.innerHTML = '';
