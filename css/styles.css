@@ -4,20 +4,21 @@
     width: 32px;
 }
 
-/*#div-statistics {*/
-/*overflow-y: auto;*/
-/*height: 500px;*/
-/*}*/
-
 @media screen and (min-width: 1092px) {
     .navbar {
         width: 1092px;
+        min-width: 1092px;
         margin: 0 auto;
     }
 
-    .content {
-        margin-top: 50px;
-    }
+}
+
+.content {
+    margin-top: 50px;
+}
+
+#search-by-country {
+    padding-right: 40px;
 }
 
 #search-by-country, #country-list {
@@ -40,8 +41,12 @@
     display: none;
 }
 
-tbody tr {
+#statistics tbody tr {
     cursor: pointer;
+}
+
+#starting-eleven-for-match {
+    width: 100%;
 }
 
 tbody tr:hover {
@@ -56,8 +61,8 @@ tr:hover td {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 3; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    z-index: 3000000; /* Sit on top */
+    padding-top: 30px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -75,6 +80,8 @@ tr:hover td {
     padding: 0;
     border: 1px solid #888;
     width: 80%;
+    max-width: 600px;
+    min-width: 450px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -126,11 +133,7 @@ tr:hover td {
     background-image: url("../images/fifa-russia.jpg");
 }
 
-#tbody td{
-    padding-right: 30px;
-}
-
-.modal-header h3{
+.modal-header h3 {
     margin-top: 10px;
 }
 
@@ -138,3 +141,129 @@ tr:hover td {
     padding: 2px 16px;
 }
 
+.modal-body h1, .modal-body h2, .modal-body h3, .modal-body h4, .modal-body h5, .modal-body h6 {
+    text-align: center;
+}
+
+#starting-eleven-for-match td:nth-child(even), #starting-eleven-for-match th:nth-child(even) {
+    text-align: right;
+}
+
+.away-team {
+    text-align: right;
+}
+
+.modal-body p {
+    display: inline-block;
+}
+
+#statistics-for-match {
+    width: 100%;
+}
+
+.fifa-ball {
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    left: calc(50% - 24px);
+    display: table-cell;
+}
+
+.center-text {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#statistics-for-match td {
+    width: 33.33%;
+}
+
+#statistics-for-current-match td:last-child, #statistics-for-match th:last-child {
+    text-align: left;
+}
+
+#statistics-for-current-match td:first-child, #statistics-for-match th:first-child {
+    text-align: right;
+}
+
+.goals {
+    margin-top: -20px;
+}
+
+.flags {
+    width: 20px;
+    display: inline-block;
+}
+
+.clear-input {
+    font-size: 24px;
+    top: 5px;
+    left: -35px;
+    position: relative;
+    cursor: pointer;
+}
+
+@media (max-width: 767px) {
+    .navbar-form .form-group {
+        display: inline-block !important;
+        top: -10px !important;
+        position: relative !important;
+    }
+
+    .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
+        max-height: 20px;
+        margin-left: -15px !important;
+    }
+
+    #clear-filter-by-country {
+        padding: 0;
+        top: -30px;
+        left: 234px;
+        position: relative;
+    }
+
+    .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
+.navbar-form {
+    border: none;
+}
+
+@media (min-width: 768px) {
+    .navbar-form .form-control {
+        display: inline-block;
+        width: 244px !important;
+    }
+}
+
+button {
+    outline: none !important;
+}
+
+.search-container{
+    min-width: 1000px;
+}
+
+.form-control {
+    display: inline;
+    width: 20%;
+    min-width: 150px;
+    padding-right: 40px;
+}
+
+.navbar-header{
+    min-width: 1000px !important;
+}
+
+@media (max-width: 768px) {
+    .navbar-form {
+        width: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}

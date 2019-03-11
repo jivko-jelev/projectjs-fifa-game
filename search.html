@@ -14,23 +14,25 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="images/dc3b07ab-4d8b-4b56-b355-27c3411b8df7_.png">
-    <title>Statistics</title>
+    <link rel="icon" href="images/iconfinder_icon-111-search_314689.png">
+    <title>Search</title>
 </head>
 <body>
 
-<div class="container">
+<div class="container search-container">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <a class="navbar-brand" href="#"><img src="images/fifa.jpg" alt="fifa logo"></a>
                 <div class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="search-by-country" placeholder="Filter by Country">
-                        <i class="fa fa-window-close-o clear-input" id="clear-filter-by-country" aria-hidden="true"></i>
-                        <select class="form-control" name="country-list" id="country-list" multiple></select>
-                    </div>
+                        <input type="text" class="form-control" id="country" placeholder="Country" autocomplete="off" autofocus value="argentina">
+                        <i class="fa fa-window-close-o clear-input" id="clear-country" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="player" placeholder="Player" autocomplete="off" value="me">
+                        <i class="fa fa-window-close-o clear-input" id="clear-player" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="stadium" placeholder="Stadium" autocomplete="off" value="kazan arena">
+                        <i class="fa fa-window-close-o clear-input" id="clear-stadium" aria-hidden="true"></i>
+                        <button class="btn btn-default" id="search">Search</button>
                 </div>
             </div>
 
@@ -39,16 +41,15 @@
     <div class="col-md-10 col-md-offset-1 content">
         <div class="col-md-12">
             <!--<div id="div-statistics">-->
-            <table class="table table-hover" id="statistics">
+            <table class="table table-hover search" id="statistics">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>Home Team</th>
                     <th>Away Team</th>
-                    <th>Result</th>
-                    <th>Location</th>
-                    <th>Weather</th>
-                    <th>Temp.</th>
+                    <th>Player</th>
+                    <th>Shirt №</th>
+                    <th>Stadium</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,22 +58,10 @@
             <!--</div>-->
         </div>
     </div>
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h3 id="modal-header"></h3>
-            </div>
-            <div class="modal-body" id="modal-body">
-            </div>
-        </div>
-    </div>
 </div>
 
 <script src="js/ajax.js"></script>
-<script src="js/script.js"></script>
+<script src="js/history.js"></script>
+<script src="js/search.js"></script>
 </body>
 </html>

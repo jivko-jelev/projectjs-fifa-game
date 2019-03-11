@@ -1,58 +1,3 @@
-function sendingAjaxRequest(url, callbacks) {
-    var ajax = createXmlHttpRequestObject();
-
-    function createXmlHttpRequestObject() {
-        var xmlHttp;
-
-        // If using Internet Explorer
-        if (window.ActiveXObject) {
-            try {
-                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e) {
-                xmlHttp = false;
-            }
-        }
-        // For other browsers
-        else {
-            try {
-                xmlHttp = new XMLHttpRequest();
-            } catch (e) {
-                xmlHttp = false;
-            }
-        }
-
-        if (!xmlHttp) {
-            alert("Error creating the XMLHttpRequest object.");
-        } else {
-            return xmlHttp;
-        }
-    }
-
-    if (ajax.readyState == 4 || ajax.readyState == 0) {
-        ajax.open('GET', url);
-        ajax.onreadystatechange = function () {
-            if (ajax.readyState == 4) {
-                if (ajax.status == 200) {
-                    var jsonResponse = JSON.parse(ajax.responseText);
-                    callbacks(jsonResponse);
-                } else {
-                    alert('Error accessing the server: ' + ajax.statusText);
-                }
-            }
-        }
-        ajax.send(null);
-    }
-    else {
-        setTimeout('sendingAjaxRequest()', 1000);
-    }
-}
-
-// sendingAjaxRequest('https://worldcup.sfg.io/matches/country?fifa_code=RUS', function (data) {
-//     for (let i = 0; i < data.length; i++) {
-//         console.log(data[i]);
-//     }
-// });
-
 var matches;
 
 sendingAjaxRequest('https://worldcup.sfg.io/matches', function (data) {
@@ -83,8 +28,111 @@ sendingAjaxRequest('https://worldcup.sfg.io/matches', function (data) {
         tempCell.innerHTML = data[i].weather.temp_celsius + '°C';
     }
 
-    function startingEleven(data) {
-        return `${data.shirt_number} ${data.name}` + (data.captain ? '(CAP)' : '') + '<br>';
+    // After filtering does not change the width of the columns in the table
+    let ths = document.getElementById('statistics').getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th');
+    for (let i = 0; i < ths.length; i++) {
+        ths[i].setAttribute('width', ths[i].offsetWidth);
+    }
+
+    function getCardsForPlayer(player, team) {
+        text = '';
+        for (let i = 0; i < team.length; i++) {
+            if (team[i].player === player && team[i].type_of_event === 'yellow-card' || team[i].type_of_event === 'red-card') {
+                text += `<img src="images/${team[i].type_of_event}.png" alt="${team[i].type_of_event}" class="flags">`;
+            }
+        }
+        return text;
+    }
+
+    function startingElevenHomeTeam(data) {
+        return `${data.shirt_number} ${data.name}` + (data.captain ? ' (CAP)' : '');
+    }
+
+    function startingElevenAwayTeam(data) {
+        return `${data.name}` + (data.captain ? ' (CAP) ' : ' ') + data.shirt_number;
+    }
+
+    function loadDialogWithStatistics(row) {
+
+        function getGoals() {
+            function getGoalsForTeam(team, otherTeam) {
+                var text = '';
+                for (let i = 0; i < team.length; i++) {
+                    if (team[i].type_of_event == 'goal' || team[i].type_of_event == 'goal-penalty') {
+                        let penaltyGoal = team[i].type_of_event == 'goal-penalty' ? '(P)' : '';
+                        text += `${team[i].player} ${team[i].time}${penaltyGoal}<br>`;
+                    }
+                }
+                for (let i = 0; i < otherTeam.length; i++) {
+                    if (otherTeam[i].type_of_event == 'goal-own') {
+                        text += `${otherTeam[i].player} ${otherTeam[i].time}(AG)<br>`;
+                    }
+                }
+                return text;
+            }
+
+            var homeTeamGoals = `<div style="position: relative; margin-top: -30px;"><p>${getGoalsForTeam(data[id].home_team_events, data[id].away_team_events)}</p>`;
+            var awayTeamGoals = `<div class="pull-right"><p class="away-team">${getGoalsForTeam(data[id].away_team_events, data[id].home_team_events)}</p></div></div>`;
+            return `<div class="goals">${homeTeamGoals}${awayTeamGoals}</div>`;
+        }
+
+        var cell = row.getElementsByTagName("td")[0];
+        var id = cell.innerHTML - 1;
+        modal.style.display = "block";
+        document.getElementById('modal-header').innerText = `${data[id].home_team_country} - ${data[id].away_team_country}`;
+        var modalBody = document.getElementById('modal-body');
+        modalBody.innerHTML = `<h2>${data[id].home_team.goals} - ${data[id].away_team.goals}</h2>`;
+        modalBody.innerHTML += '<img src="images/soccer-ball-retina.png" class="fifa-ball" alt="soccer ball retina">';
+        modalBody.innerHTML += getGoals();
+        modalBody.innerHTML += `<table id="starting-eleven-for-match">
+                                    <thead>
+                                        <tr><th colspan="2"><h4>Starting Elevens</h4></th></tr>
+                                        <tr>
+                                            <th>${data[id].home_team_country}</th>
+                                            <th>${data[id].away_team_country}</th>
+                                        </tr>
+                                    </thead>
+                                <tbody id="tbody">`;
+        var tbody = document.getElementById('tbody');
+        for (let i = 0; i < 11; i++) {
+            tbody.innerHTML += `<tr>
+                            <td>${startingElevenHomeTeam(data[id].home_team_statistics.starting_eleven[i])}${getCardsForPlayer(data[id].home_team_statistics.starting_eleven[i].name, data[id].home_team_events)}</td>
+                            <td>${getCardsForPlayer(data[id].away_team_statistics.starting_eleven[i].name, data[id].away_team_events)}${startingElevenAwayTeam(data[id].away_team_statistics.starting_eleven[i])}</td>
+                            </tr>`;
+        }
+        modalBody.innerHTML += '</tbody>';
+
+        modalBody.innerHTML += `<h4>Statistics</h4>\n
+                                <table id="statistics-for-match">
+                                    <thead>
+                                        <tr>
+                                            <th>${data[id].home_team_country}</th>
+                                            <th></th>
+                                            <th>${data[id].away_team_country}</th>
+                                        </tr>
+                                    </thead>
+                                <tbody id="statistics-for-current-match">`;
+        var statistics = document.getElementById('statistics-for-current-match');
+
+        function getStatisticsFor(key, suffix = '') {
+            return `<tr>
+                        <td>${data[id].home_team_statistics[key]}${suffix}</td>
+                        <td class="center-text">${key.split('_').join(' ')}</td>
+                        <td>${data[id].away_team_statistics[key]}${suffix}</td>
+                    </tr>`;
+        }
+
+        statistics.innerHTML += getStatisticsFor('attempts_on_goal');
+        statistics.innerHTML += getStatisticsFor('on_target');
+        statistics.innerHTML += getStatisticsFor('off_target');
+        statistics.innerHTML += getStatisticsFor('corners');
+        statistics.innerHTML += getStatisticsFor('pass_accuracy', '%');
+        statistics.innerHTML += getStatisticsFor('offsides');
+        statistics.innerHTML += getStatisticsFor('ball_possession', '%');
+        statistics.innerHTML += getStatisticsFor('yellow_cards');
+        statistics.innerHTML += getStatisticsFor('red_cards');
+        modalBody.innerHTML += '</tbody>';
+
     }
 
     function addRowHandlers() {
@@ -93,21 +141,7 @@ sendingAjaxRequest('https://worldcup.sfg.io/matches', function (data) {
             var currentRow = table.rows[i];
             var createClickHandler = function (row) {
                 return function () {
-                    var cell = row.getElementsByTagName("td")[0];
-                    var id = cell.innerHTML;
-                    modal.style.display = "block";
-                    document.getElementById('modal-header').innerText = `${data[id - 1].home_team_country} - ${data[id - 1].away_team_country} ${data[id - 1].home_team.goals}:${data[id - 1].away_team.goals}`;
-                    var modalBody = document.getElementById('modal-body');
-                    modalBody.innerHTML = 'Starting Elevens\n<table><thead><tr><th>Home Team</th><th>Away Team</th></tr></thead><tbody id="tbody">';
-                    var tbody = document.getElementById('tbody');
-                    for (let i = 0; i < 11; i++) {
-                        tbody.innerHTML += `<tr>
-                            <td>${startingEleven(data[id - 1].home_team_statistics.starting_eleven[i])}</td>
-                            <td>${startingEleven(data[id - 1].away_team_statistics.starting_eleven[i])}</td>
-                            </tr>`;
-                    }
-                    modalBody.innerHTML += '</tbody>';
-                    console.log(data[id - 1]);
+                    loadDialogWithStatistics(row);
                 };
             };
             currentRow.onclick = createClickHandler(currentRow);
@@ -118,22 +152,27 @@ sendingAjaxRequest('https://worldcup.sfg.io/matches', function (data) {
 
     var modal = document.getElementById('myModal');
 
-
-// Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
 
-// When the user clicks on <span> (x), close the modal
+    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         modal.style.display = "none";
     }
 
-// When the user clicks anywhere outside of the modal, close it
+    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
+
+    window.onkeyup= function(event){
+       if(event.key === 'Escape' && modal.style.display !== "none"){
+           modal.style.display = "none";
+       }
+    };
 });
 
 
@@ -148,7 +187,7 @@ searchByCountry.addEventListener('focus', function () {
     }
     searchForCountry();
     document.getElementById('country-list').style.left = searchByCountry.style.left;
-    document.getElementById('country-list').style.display = 'inherit';
+    document.getElementById('country-list').style.display = searchByCountry.value === '' ? 'none' : 'inherit';
 });
 
 searchByCountry.addEventListener('blur', function (e) {
@@ -157,18 +196,53 @@ searchByCountry.addEventListener('blur', function (e) {
     }
 });
 
-searchByCountry.addEventListener('keyup', function () {
+document.getElementById('country-list').addEventListener('blur', function (e) {
+    if (e.relatedTarget === null || e.relatedTarget.id !== 'country-list') {
+        document.getElementById('country-list').style.display = 'none';
+    }
+});
+
+searchByCountry.addEventListener('keyup', function (e) {
+    if(e.key === 'Escape'){
+        document.getElementById('country-list').style.display = "none";
+    }else {
+        searchForCountry();
+    }
+});
+
+document.getElementById('clear-filter-by-country').addEventListener('click', function () {
+    searchByCountry.value = '';
     searchForCountry();
+    document.getElementById('country-list').style.display = 'none';
 });
 
 function searchForCountry() {
-    var countryList = document.getElementById('country-list');
-    document.getElementById('country-list').style.display = 'inherit';
+    function filterListByCountry(country) {
+        country = country.toLowerCase();
+        let table = document.getElementById('statistics');
+        let tbody = table.getElementsByTagName("tbody")[0];
+        for (let i = 0; i < tbody.rows.length; i++) {
+            let trs = tbody.getElementsByTagName("tr")[i];
+            let cellValueForHomeTeam = trs.cells[1];
+            let cellValueForAwayTeam = trs.cells[2];
+            if (cellValueForHomeTeam.innerHTML.toLowerCase().indexOf(country) !== -1 ||
+                cellValueForAwayTeam.innerHTML.toLowerCase().indexOf(country) !== -1) {
+                trs.style.display = '';
+            } else {
+                trs.style.display = 'none';
+            }
+        }
+    }
+
+    let countryList = document.getElementById('country-list');
+    countryList.style.display = 'inherit';
+    countryList.style.width = searchByCountry.offsetWidth + 'px';
+
     if (searchByCountry.value.trim() !== '') {
         countryList.innerHTML = '';
         for (let i = 0; i < teams.length; i++) {
             if (teams[i].country.toLowerCase().indexOf(searchByCountry.value.toLowerCase().trim()) !== -1) {
-                var option = document.createElement("option");
+                let option = document.createElement("option");
                 option.text = teams[i].country;
                 option.value = teams[i].fifa_code;
                 countryList.add(option);
@@ -182,10 +256,11 @@ function searchForCountry() {
             }
 
             searchByCountry.value = getSelectedText();
-            document.getElementById('country-list').style.display = 'none';
-            document.getElementById('search').scrollIntoView(true);
+            filterListByCountry(countryList.options[countryList.selectedIndex].text);
+            countryList.style.display = 'none';
         }, false);
     } else {
         countryList.innerHTML = '';
     }
+    filterListByCountry(searchByCountry.value);
 }
