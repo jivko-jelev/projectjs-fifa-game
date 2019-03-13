@@ -26,12 +26,13 @@ function loadHistoryData() {
         row.insertCell(column++).innerHTML = storage[index].event;
         row.insertCell(column++).innerHTML = formatDate(storage[index].date);
         row.insertCell(column++).innerHTML = formatTime(storage[index].date);
-        var text='';
+        var text = '';
 
         if (typeof Object.keys !== "function") {
-            (function() {
+            (function () {
                 var hasOwn = Object.prototype.hasOwnProperty;
                 Object.keys = Object_keys;
+
                 function Object_keys(obj) {
                     var keys = [], name;
                     for (name in obj) {
@@ -44,22 +45,29 @@ function loadHistoryData() {
             })();
         }
 
-        if(storage[index].data!==undefined) {
+        if (storage[index].data !== undefined) {
             for (let j = 0; j < Object.keys(storage[index].data).length; j++) {
                 let data = storage[index].data[Object.keys(storage[index].data)[j]];
                 text += Object.keys(storage[index].data)[j] + ': <span class="events">' + (data !== '' ? data : '<span class="my-alert">all</span>') + '</span><br>';
             }
             row.insertCell(column++).innerHTML = text;
-        }else{
+        } else {
             row.insertCell(column++).innerHTML = '<span class="faded-text">There are no parameters for this operation</span>';
         }
     }
+
+    SaveDataToLocalStorage({
+        'event': 'View History',
+        'date': Date(),
+        'data': {'Order By': document.getElementById('order').options[document.getElementById('order').selectedIndex].text}
+    });
+
     var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
     table.innerHTML = '';
     let storage = JSON.parse(localStorage.getItem('session'));
     let order = document.getElementById('order').value;
 
-    if(storage!==null) {
+    if (storage !== null) {
         if (order === 'newest') {
             for (let i = storage.length - 1; i >= 0; i--) {
                 addRow(i);
@@ -70,11 +78,6 @@ function loadHistoryData() {
             }
         }
     }
-    SaveDataToLocalStorage({
-        'event': 'View History',
-        'date': Date(),
-        'data': {'Order By': document.getElementById('order').options[document.getElementById('order').selectedIndex].text}
-    });
 }
 
 document.getElementById('order').addEventListener('change', function () {
@@ -83,5 +86,5 @@ document.getElementById('order').addEventListener('change', function () {
 
 document.getElementById('delete-history').addEventListener('click', function () {
     localStorage.clear();
-    loadHistoryData();
+    document.getElementById('statistics').getElementsByTagName('tbody')[0].innerHTML = '';
 })

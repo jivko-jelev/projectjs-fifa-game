@@ -206,7 +206,6 @@ tr:hover td {
     cursor: pointer;
 }
 
-
 .navbar-default {
     border-left: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
@@ -280,11 +279,11 @@ button {
     max-height: 20px;
 }
 
-.btn{
+.btn {
     border-radius: 20px;
 }
 
-#message-invalid-country{
+#message-invalid-country {
     border: 1px solid lightgrey;
     font-weight: bold;
     color: #576476;
@@ -301,42 +300,59 @@ button {
     box-shadow: 0px 0px 50px 0px rgba(255, 0, 0, 1);
 }
 
-.my-alert{
+.my-alert {
     color: red;
     padding: 0;
 }
 
-.faded-text{
+.faded-text {
     color: lightgray;
 }
 
-.group tbody td:nth-child(even){
+.group tbody td:nth-child(even) {
     background-color: rgba(158, 255, 158, 0.47);
 }
 
-.group tbody td, .group thead th{
+.group tbody td, .group thead th {
     text-align: center;
 }
 
-.left{
+.left {
     text-align: left !important;
 }
 
-.group tbody p{
+.group tbody p {
     margin-bottom: 0;
 }
 
-.legend-text{
+.legend-text {
     border-color: #d6e9c6;
-    color: #3c763d;
     background-color: #dff0d8;
     border-radius: 4px;
 }
 
-.legend-div{
+.legend-div {
+    color: #3c763d;
     background-color: #dff0d8;
     border: 1px solid #c4dbb4;
     padding: 15px;
     margin-bottom: 20px;
+    margin-top: 10px;
     border-radius: 4px;
+}
+
+.th-fifa-code{
+    max-width: 50px;
+}
+
+.th-number{
+    width: 20px !important;
+}
+
+.legend-div h3{
+    margin-top: 0px
+}
+
+.arrow-cursor tbody tr{
+    cursor: default !important;
 }

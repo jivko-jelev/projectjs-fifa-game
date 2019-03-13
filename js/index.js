@@ -20,7 +20,7 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
     // After filtering does not change the width of the columns in the table
     let ths = document.getElementById('statistics').getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].getElementsByTagName('th');
     for (let i = 0; i < ths.length; i++) {
-        ths[i].setAttribute('width', ths[i].offsetWidth);
+        ths[i].style.width = ths[i].offsetWidth;
     }
 
     function getCardsForPlayer(player, team) {
@@ -127,7 +127,7 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
             'date': Date(),
             'data': {
                 'Teams': `${data[id].home_team_country} - ${data[id].away_team_country}`,
-                'Result' : `${data[id].home_team.goals} - ${data[id].away_team.goals}`,
+                'Result': `${data[id].home_team.goals} - ${data[id].away_team.goals}`,
             }
         });
     }
@@ -165,10 +165,10 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
         }
     }
 
-    window.onkeyup= function(event){
-       if(event.key === 'Escape' && modal.style.display !== "none"){
-           modal.style.display = "none";
-       }
+    window.onkeyup = function (event) {
+        if (event.key === 'Escape' && modal.style.display !== "none") {
+            modal.style.display = "none";
+        }
     };
     SaveDataToLocalStorage({
         'event': 'View All Matches',
@@ -204,9 +204,9 @@ document.getElementById('country-list').addEventListener('blur', function (e) {
 });
 
 searchByCountry.addEventListener('keyup', function (e) {
-    if(e.key === 'Escape'){
+    if (e.key === 'Escape') {
         countryList.style.display = "none";
-    }else {
+    } else {
         searchForCountry();
     }
 });

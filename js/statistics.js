@@ -26,11 +26,10 @@ sendingAjaxRequest('http://worldcup.sfg.io/teams/group_results', function (data)
         }
 
         SaveDataToLocalStorage({
-            'event': 'Statistics',
+            'event': 'View Team Statistics',
             'date': Date(),
             'data': {'Order By': order.options[order.selectedIndex].text}
         });
-
     }
 
     var teams = [];
@@ -50,107 +49,13 @@ sendingAjaxRequest('http://worldcup.sfg.io/teams/group_results', function (data)
     }
 
     order.addEventListener('change', function (e) {
+        let orderValue = order.value.split('-');
         for (let i = 0; i < teams.length - 1; i++) {
             for (let j = i + 1; j < teams.length; j++) {
-                switch (order.value) {
-                    case 'group-desc' :
-                        if (teams[i].group_letter < teams[j].group_letter)
-                            swap(i, j);
-                        break;
-                    case 'group-asc' :
-                        if (teams[i].group_letter > teams[j].group_letter)
-                            swap(i, j);
-                        break;
-
-                    case 'wins-desc' :
-                        if (teams[i].wins < teams[j].wins)
-                            swap(i, j);
-                        break;
-                    case 'wins-asc' :
-                        if (teams[i].wins > teams[j].wins)
-                            swap(i, j);
-                        break;
-
-                    case 'country-desc' :
-                        if (teams[i].country < teams[j].country)
-                            swap(i, j);
-                        break;
-                    case 'country-asc' :
-                        if (teams[i].country > teams[j].country)
-                            swap(i, j);
-                        break;
-
-                    case 'fifa-code-desc' :
-                        if (teams[i].fifa_code < teams[j].fifa_code)
-                            swap(i, j);
-                        break;
-                    case 'fifa-code-asc' :
-                        if (teams[i].fifa_code > teams[j].fifa_code)
-                            swap(i, j);
-                        break;
-
-                    case 'draws-desc' :
-                        if (teams[i].draws < teams[j].draws)
-                            swap(i, j);
-                        break;
-                    case 'draws-asc' :
-                        if (teams[i].draws > teams[j].draws)
-                            swap(i, j);
-                        break;
-
-                    case 'losses-desc' :
-                        if (teams[i].losses < teams[j].losses)
-                            swap(i, j);
-                        break;
-                    case 'losses-asc' :
-                        if (teams[i].losses > teams[j].losses)
-                            swap(i, j);
-                        break;
-
-                    case 'games-played-desc' :
-                        if (teams[i].games_played < teams[j].games_played)
-                            swap(i, j);
-                        break;
-                    case 'games-played-asc' :
-                        if (teams[i].games_played > teams[j].games_played)
-                            swap(i, j);
-                        break;
-
-                    case 'points-desc' :
-                        if (teams[i].points < teams[j].points)
-                            swap(i, j);
-                        break;
-                    case 'points-asc' :
-                        if (teams[i].points > teams[j].points)
-                            swap(i, j);
-                        break;
-
-                    case 'goals-for-desc' :
-                        if (teams[i].goals_for < teams[j].goals_for)
-                            swap(i, j);
-                        break;
-                    case 'goals-for-asc' :
-                        if (teams[i].goals_for > teams[j].goals_for)
-                            swap(i, j);
-                        break;
-
-                    case 'goals-against-desc' :
-                        if (teams[i].goals_against < teams[j].goals_against)
-                            swap(i, j);
-                        break;
-                    case 'goals-against-asc' :
-                        if (teams[i].goals_against > teams[j].goals_against)
-                            swap(i, j);
-                        break;
-
-                    case 'goal-differential-desc' :
-                        if (teams[i].goal_differential < teams[j].goal_differential)
-                            swap(i, j);
-                        break;
-                    case 'goal-differential-asc' :
-                        if (teams[i].goal_differential > teams[j].goal_differential)
-                            swap(i, j);
-                        break;
+                if (orderValue[1]=='desc' && teams[i][orderValue[0]] < teams[j][orderValue[0]]){
+                    swap(i, j);
+                }else if(orderValue[1]=='asc' && teams[i][orderValue[0]] > teams[j][orderValue[0]]) {
+                    swap(i, j);
                 }
             }
         }
