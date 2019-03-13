@@ -26,11 +26,12 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="#"><img src="images/fifa.jpg" alt="fifa logo"></a>
                 <div class="navbar-form navbar-left">
-                        <input type="text" class="form-control" id="country" placeholder="Country" autocomplete="off" autofocus value="argentina">
+                        <input type="text" class="form-control" id="country-name1" placeholder="Country" autocomplete="off" autofocus value="">
                         <i class="fa fa-window-close-o clear-input" id="clear-country" aria-hidden="true"></i>
-                        <input type="text" class="form-control" id="player" placeholder="Player" autocomplete="off" value="me">
+                        <select class="form-control" name="country-list" id="country-list1" multiple></select>
+                        <input type="text" class="form-control" id="player" placeholder="Player" autocomplete="off" value="">
                         <i class="fa fa-window-close-o clear-input" id="clear-player" aria-hidden="true"></i>
-                        <input type="text" class="form-control" id="stadium" placeholder="Stadium" autocomplete="off" value="kazan arena">
+                        <input type="text" class="form-control" id="stadium" placeholder="Stadium" autocomplete="off" value="">
                         <i class="fa fa-window-close-o clear-input" id="clear-stadium" aria-hidden="true"></i>
                         <button class="btn btn-default" id="search">Search</button>
                 </div>
@@ -60,8 +61,8 @@
     </div>
 </div>
 
-<script src="js/ajax.js"></script>
-<script src="js/history.js"></script>
+<div id="message-invalid-country"></div>
+<script src="js/script.js"></script>
 <script src="js/search.js"></script>
 </body>
 </html>

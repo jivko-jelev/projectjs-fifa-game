@@ -14,15 +14,7 @@
 }
 
 .content {
-    margin-top: 50px;
-}
-
-#search-by-country {
-    padding-right: 40px;
-}
-
-#search-by-country, #country-list {
-    margin-left: 20px !important;
+    margin-top: 60px;
 }
 
 .navbar-brand img {
@@ -31,9 +23,20 @@
 }
 
 #country-list {
-    position: absolute;
-    top: 43px;
     width: 196px;
+    left: 327px;
+    position: relative;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 2;
+    height: 178px;
+    display: none;
+}
+
+#country-list1 {
+    width: 196px;
+    left: 108px;
+    position: absolute;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     z-index: 2;
@@ -203,29 +206,17 @@ tr:hover td {
     cursor: pointer;
 }
 
-@media (max-width: 767px) {
-    .navbar-form .form-group {
-        display: inline-block !important;
-        top: -10px !important;
-        position: relative !important;
-    }
 
-    .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
-        max-height: 20px;
-        margin-left: -15px !important;
-    }
-
-    #clear-filter-by-country {
-        padding: 0;
-        top: -30px;
-        left: 234px;
-        position: relative;
-    }
-
-    .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
-        margin-right: 0;
-        margin-left: 0;
-    }
+.navbar-default {
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    border-bottom-left-radius: 130px;
+    border-bottom-right-radius: 130px;
+    padding-left: 20px;
+    -webkit-box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.75);
 }
 
 .navbar-form {
@@ -243,7 +234,7 @@ button {
     outline: none !important;
 }
 
-.search-container{
+.search-container {
     min-width: 1000px;
 }
 
@@ -254,7 +245,7 @@ button {
     padding-right: 40px;
 }
 
-.navbar-header{
+.navbar-header {
     min-width: 1000px !important;
 }
 
@@ -266,4 +257,55 @@ button {
         margin-right: 0;
         margin-left: 0;
     }
+}
+
+.events {
+    font-weight: bold;
+    color: #576476;
+}
+
+.legend {
+    text-align: right;
+    font-style: italic;
+    color: lightslategrey;
+    padding-top: 15px;
+    position: absolute;
+    top: 0px;
+    right: 30px;
+}
+
+.navbar {
+    width: 1092px;
+    min-width: 770px;
+    max-height: 20px;
+}
+
+.btn{
+    border-radius: 20px;
+}
+
+#message-invalid-country{
+    border: 1px solid lightgrey;
+    font-weight: bold;
+    color: #576476;
+    display: none;
+    opacity: 0;
+    width: 160px;
+    text-align: center;
+    position: relative;
+    padding: 10px 20px;
+    left: calc(50% - 80px);
+    border-radius: 60px;
+    -webkit-box-shadow: 0px 3px 50px 0px rgba(255, 0, 0, 1);
+    -moz-box-shadow: 0px 3px 50px 0px rgba(255, 0, 0, 1);
+    box-shadow: 0px 0px 50px 0px rgba(255, 0, 0, 1);
+}
+
+.alert{
+    color: red;
+    padding: 0;
+}
+
+.faded-text{
+    color: lightgray;
 }
