@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/dc3b07ab-4d8b-4b56-b355-27c3411b8df7_.png">
+    <title>Statistics</title>
+</head>
+<body>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img src="images/fifa.jpg" alt="fifa logo"></a>
+                <div class="navbar-form center-text">
+                    <label for="order">Order By</label>
+                    <select class="form-control" id="order">
+                        <option value="country-asc">Country Asc</option>
+                        <option value="country-desc">Country Desc</option>
+                        <option value="fifa-code-asc">FIFA Code Asc</option>
+                        <option value="fifa-code-desc">FIFA Code Desc</option>
+                        <option value="group-asc" selected="selected">Group Asc</option>
+                        <option value="group-desc">Group Desc</option>
+                        <option value="wins-asc">Wins Asc</option>
+                        <option value="wins-desc">Wins Desc</option>
+                        <option value="draws-asc">Draws Asc</option>
+                        <option value="draws-desc">Draws Desc</option>
+                        <option value="losses-asc">Losses Asc</option>
+                        <option value="losses-desc">Losses Desc</option>
+                        <option value="games-played-asc">Games Played Asc</option>
+                        <option value="games-played-desc">Games Played Desc</option>
+                        <option value="points-asc">Points Asc</option>
+                        <option value="points-desc">Points Desc</option>
+                        <option value="goals-for-asc">Goals For Asc</option>
+                        <option value="goals-for-desc">Goals For Desc</option>
+                        <option value="goals-against-asc">Goals Against Asc</option>
+                        <option value="goals-against-desc">Goals Against Desc</option>
+                        <option value="goal-differential-asc">Goal Differential Asc</option>
+                        <option value="goal-differential-desc">Goal Differential Desc</option>
+                    </select>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="col-md-10 col-md-offset-1 content">
+        <div class="col-md-12">
+            <table class="table table-hover group" id="statistics">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="left">Country</th>
+                    <th>FIFA Code</th>
+                    <th>G</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GP</th>
+                    <th>Pts</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>Diff</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 legend-div">
+                <div class="col-md-4 legend-text">
+                    <strong>G</strong> - Group Letter<br>
+                    <strong>W</strong> - Wins<br>
+                    <strong>D</strong> - Draws<br>
+                </div>
+                <div class="col-md-4 legend-text">
+                    <strong>L</strong> - Losses<br>
+                    <strong>GP</strong> - Games Played<br>
+                    <strong>Pts</strong> - Points<br>
+                </div>
+                <div class="col-md-4 legend-text">
+                    <strong>GF</strong> - Goals For<br>
+                    <strong>GA</strong> - Goals Against<br>
+                    <strong>Diff</strong> - Goal Differential<br>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+<script src="js/statistics.js"></script>
+</body>
+</html>

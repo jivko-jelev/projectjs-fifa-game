@@ -9,23 +9,12 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
         var idCell = row.insertCell(column++);
         idCell.innerText = i + 1;
 
-        var homeTeamCell = row.insertCell(column++);
-        homeTeamCell.innerHTML = data[i].home_team_country;
-
-        var awayTeamCell = row.insertCell(column++);
-        awayTeamCell.innerHTML = data[i].away_team_country;
-
-        var goalsCell = row.insertCell(column++);
-        goalsCell.innerHTML = data[i].home_team.goals + ':' + data[i].away_team.goals;
-
-        var locationCell = row.insertCell(column++);
-        locationCell.innerHTML = data[i].location + ' (' + data[i].venue + ')';
-
-        var weatherCell = row.insertCell(column++);
-        weatherCell.innerHTML = `<img src="images/${encodeURI(data[i].weather.description)}.png" class="weather" alt="The weather during the match between ${data[i].home_team_country} and ${data[i].away_team_country} is ${data[i].weather.description.toLowerCase()}" title="${data[i].weather.description}">`;
-
-        var tempCell = row.insertCell(column++);
-        tempCell.innerHTML = data[i].weather.temp_celsius + '°C';
+        row.insertCell(column++).innerHTML = data[i].home_team_country;
+        row.insertCell(column++).innerHTML = data[i].away_team_country;
+        row.insertCell(column++).innerHTML = data[i].home_team.goals + ':' + data[i].away_team.goals;
+        row.insertCell(column++).innerHTML = data[i].location + ' (' + data[i].venue + ')';
+        row.insertCell(column++).innerHTML = `<img src="images/${encodeURI(data[i].weather.description)}.png" class="weather" alt="The weather during the match between ${data[i].home_team_country} and ${data[i].away_team_country} is ${data[i].weather.description.toLowerCase()}" title="${data[i].weather.description}">`;
+        row.insertCell(column++).innerHTML = data[i].weather.temp_celsius + '°C';
     }
 
     // After filtering does not change the width of the columns in the table

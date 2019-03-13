@@ -47,7 +47,7 @@ function loadHistoryData() {
         if(storage[index].data!==undefined) {
             for (let j = 0; j < Object.keys(storage[index].data).length; j++) {
                 let data = storage[index].data[Object.keys(storage[index].data)[j]];
-                text += Object.keys(storage[index].data)[j] + ': <span class="events">' + (data !== '' ? data : '<span class="alert">all</span>') + '</span><br>';
+                text += Object.keys(storage[index].data)[j] + ': <span class="events">' + (data !== '' ? data : '<span class="my-alert">all</span>') + '</span><br>';
             }
             row.insertCell(column++).innerHTML = text;
         }else{
@@ -73,6 +73,7 @@ function loadHistoryData() {
     SaveDataToLocalStorage({
         'event': 'View History',
         'date': Date(),
+        'data': {'Order By': document.getElementById('order').options[document.getElementById('order').selectedIndex].text}
     });
 }
 
