@@ -24,8 +24,8 @@
 
 #country-list {
     width: 196px;
-    left: 327px;
-    position: relative;
+    left: 421px;
+    position: absolute;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     z-index: 2;
@@ -266,11 +266,12 @@ button {
 .legend {
     text-align: right;
     font-style: italic;
+    font-size: 85%;
     color: lightslategrey;
     padding-top: 15px;
     position: absolute;
-    top: 0px;
-    right: 30px;
+    top: 20px;
+    left: calc(100% - 400px);
 }
 
 .navbar {
@@ -343,26 +344,80 @@ button {
     border-radius: 4px;
 }
 
-.th-fifa-code{
+.th-fifa-code {
     max-width: 50px;
 }
 
-.th-number{
+.th-number {
     width: 20px !important;
 }
 
-.legend-div h3{
+.legend-div h3 {
     margin-top: 0px
 }
 
-.arrow-cursor tbody tr{
+.arrow-cursor tbody tr {
     cursor: default !important;
 }
 
-#reserves-for-match{
+#reserves-for-match {
     width: 100%;
 }
 
-#tbody-reserves td:nth-child(even){
+#tbody-reserves td:nth-child(even) {
     text-align: right;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    top: -40px;
+    left: calc(100% - 10px);
+    cursor: pointer;
+    width: 50px;
+}
+
+.dropdown a{
+    color: #475b76;
+}
+
+.dropdown i {
+    font-size: 28px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    -webkit-box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 3px 24px 0px rgba(0, 0, 0, 0.75);
+    border: 1px solid #e6e6e6;
+    border-radius: 15px;
+    padding: 12px 16px;
+    z-index: 1;
+    left: -30px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:link {
+    text-decoration: none;
+}
+
+.dropdown-content a:visited {
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    text-decoration: none;
+    color: royalblue;
+    font-weight: bold;
+}
+
+.dropdown-content a:active {
+    text-decoration: none;
 }

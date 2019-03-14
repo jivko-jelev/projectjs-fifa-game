@@ -73,9 +73,9 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
                         }
                     }
                 }
-                let text='';
+                let text = '';
                 for (let i = 0; i < goals.length; i++) {
-                    text+=`${goals[i][0]} ${goals[i][1]} ${goals[i][2]}<br>`;
+                    text += `${goals[i][0]} ${goals[i][1]} ${goals[i][2]}<br>`;
                 }
                 return text;
             }

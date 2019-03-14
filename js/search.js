@@ -136,7 +136,6 @@ stadium.addEventListener('keyup', function (e) {
     }
 });
 
-
 var teams;
 
 function showListWithCountries() {
