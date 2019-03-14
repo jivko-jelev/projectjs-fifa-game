@@ -65,7 +65,7 @@ tr:hover td {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 3000000; /* Sit on top */
-    padding-top: 30px; /* Location of the box */
+    padding-top: 20px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -291,7 +291,9 @@ button {
     opacity: 0;
     width: 160px;
     text-align: center;
-    position: relative;
+    position: absolute;
+    top: 150px;
+    background-color: white;
     padding: 10px 20px;
     left: calc(50% - 80px);
     border-radius: 60px;
@@ -355,4 +357,12 @@ button {
 
 .arrow-cursor tbody tr{
     cursor: default !important;
+}
+
+#reserves-for-match{
+    width: 100%;
+}
+
+#tbody-reserves td:nth-child(even){
+    text-align: right;
 }

@@ -88,3 +88,5 @@ document.getElementById('delete-history').addEventListener('click', function () 
     localStorage.clear();
     document.getElementById('statistics').getElementsByTagName('tbody')[0].innerHTML = '';
 })
+
+loadHistoryData();

@@ -42,19 +42,19 @@ sendingAjaxRequest('http://worldcup.sfg.io/teams/group_results', function (data)
     var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
     showData();
 
-    function swap(i, j) {
-        let temp = teams[i];
-        teams[i] = teams[j];
-        teams[j] = temp;
-    }
-
     order.addEventListener('change', function (e) {
+        function swap(i, j) {
+            let temp = teams[i];
+            teams[i] = teams[j];
+            teams[j] = temp;
+        }
+
         let orderValue = order.value.split('-');
         for (let i = 0; i < teams.length - 1; i++) {
             for (let j = i + 1; j < teams.length; j++) {
-                if (orderValue[1]=='desc' && teams[i][orderValue[0]] < teams[j][orderValue[0]]){
+                if (orderValue[1] === 'desc' && teams[i][orderValue[0]] < teams[j][orderValue[0]]) {
                     swap(i, j);
-                }else if(orderValue[1]=='asc' && teams[i][orderValue[0]] > teams[j][orderValue[0]]) {
+                } else if (orderValue[1] === 'asc' && teams[i][orderValue[0]] > teams[j][orderValue[0]]) {
                     swap(i, j);
                 }
             }

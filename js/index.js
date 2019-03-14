@@ -11,10 +11,10 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
 
         row.insertCell(column++).innerHTML = data[i].home_team_country;
         row.insertCell(column++).innerHTML = data[i].away_team_country;
+        row.insertCell(column++).innerHTML = data[i].stage_name;
         row.insertCell(column++).innerHTML = data[i].home_team.goals + ':' + data[i].away_team.goals;
         row.insertCell(column++).innerHTML = data[i].location + ' (' + data[i].venue + ')';
-        row.insertCell(column++).innerHTML = `<img src="images/${encodeURI(data[i].weather.description)}.png" class="weather" alt="The weather during the match between ${data[i].home_team_country} and ${data[i].away_team_country} is ${data[i].weather.description.toLowerCase()}" title="${data[i].weather.description}">`;
-        row.insertCell(column++).innerHTML = data[i].weather.temp_celsius + '°C';
+        row.insertCell(column++).innerHTML = `<img src="images/${encodeURI(data[i].weather.description)}.png" class="weather" alt="The weather during the match between ${data[i].home_team_country} and ${data[i].away_team_country} is ${data[i].weather.description.toLowerCase()}" title="${data[i].weather.description}"> &nbsp &nbsp${data[i].weather.temp_celsius}°C`;
     }
 
     // After filtering does not change the width of the columns in the table
@@ -26,7 +26,7 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
     function getCardsForPlayer(player, team) {
         text = '';
         for (let i = 0; i < team.length; i++) {
-            if (team[i].player === player && team[i].type_of_event === 'yellow-card' || team[i].type_of_event === 'red-card') {
+            if (team[i].player === player && (team[i].type_of_event === 'yellow-card' || team[i].type_of_event === 'red-card')) {
                 text += `<img src="images/${team[i].type_of_event}.png" alt="${team[i].type_of_event}" class="flags">`;
             }
         }
@@ -43,19 +43,39 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
 
     function loadDialogWithStatistics(row) {
 
+        function filterInvalidJSONDataForGoals(team, index) {
+            let invalidData = [59, 223, 481, 585, 655, 700, 727, 814, 845, 921, 941, 1017, 1112, 1181];
+            return invalidData.indexOf(team[index].id) == -1;
+        }
+
         function getGoals() {
             function getGoalsForTeam(team, otherTeam) {
-                var text = '';
+                var goals = [];
                 for (let i = 0; i < team.length; i++) {
-                    if (team[i].type_of_event == 'goal' || team[i].type_of_event == 'goal-penalty') {
+                    if ((team[i].type_of_event == 'goal' || team[i].type_of_event == 'goal-penalty') &&
+                        filterInvalidJSONDataForGoals(team, i)) {
                         let penaltyGoal = team[i].type_of_event == 'goal-penalty' ? '(P)' : '';
-                        text += `${team[i].player} ${team[i].time}${penaltyGoal}<br>`;
+                        goals.push([team[i].player, team[i].time, penaltyGoal]);
                     }
                 }
                 for (let i = 0; i < otherTeam.length; i++) {
-                    if (otherTeam[i].type_of_event == 'goal-own') {
-                        text += `${otherTeam[i].player} ${otherTeam[i].time}(AG)<br>`;
+                    if (otherTeam[i].type_of_event == 'goal-own' && filterInvalidJSONDataForGoals(otherTeam, i)) {
+                        goals.push([otherTeam[i].player, otherTeam[i].time, '(AG)']);
                     }
+                }
+
+                for (let i = 0; i < goals.length - 1; i++) {
+                    for (let j = i + 1; j < goals.length; j++) {
+                        if (goals[i][1] > goals[j][1]) {
+                            let temp = goals[i];
+                            goals[i] = goals[j];
+                            goals[j] = temp;
+                        }
+                    }
+                }
+                let text='';
+                for (let i = 0; i < goals.length; i++) {
+                    text+=`${goals[i][0]} ${goals[i][1]} ${goals[i][2]}<br>`;
                 }
                 return text;
             }
@@ -250,13 +270,7 @@ function searchForCountry() {
             }
         }
         countryList.addEventListener('change', function (e) {
-            function getSelectedText() {
-                if (countryList.selectedIndex == -1)
-                    return null;
-                return countryList.options[countryList.selectedIndex].text;
-            }
-
-            searchByCountry.value = getSelectedText();
+            searchByCountry.value = countryList.options[countryList.selectedIndex].text;
             filterListByCountry(countryList.options[countryList.selectedIndex].text);
             countryList.style.display = 'none';
         }, false);

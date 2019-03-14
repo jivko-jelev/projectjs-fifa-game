@@ -48,7 +48,7 @@ function start() {
             if (fifaCode !== undefined) {
                 sendingAjaxRequest('http://worldcup.sfg.io/matches/country?fifa_code=' + fifaCode, function (data) {
                     var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
-                    table.innerHTML = '';
+                    var mustClear = true;
                     for (var i = 0; i < data.length; i++) {
                         var team = data[i].away_team.code === fifaCode
                             ? data[i].away_team_statistics.starting_eleven
@@ -56,24 +56,28 @@ function start() {
                         for (let j = 0; j < team.length; j++) {
                             if (team[j].name.toLowerCase().indexOf(player.toLowerCase()) !== -1 &&
                                 (data[i].location.toLowerCase().indexOf(stadium.toLowerCase()) !== -1)) {
+                                if (mustClear == true) {
+                                    table.innerHTML = '';
+                                    mustClear = false;
+                                }
                                 addNewRowToTable(data, i, team[j], stadium);
                             }
                         }
                     }
-                    if (table.rows.length ==0){
+                    if (mustClear == true) {
                         showMessageWithFadeEffect('No matches were found based on this criteria!');
                     }
                 });
             } else {
                 showMessageWithFadeEffect('Invalid Name of Country!');
             }
-        }else{
+        } else {
             showMessageWithFadeEffect('You must enter name of country!');
         }
     });
 }
 
-function showMessageWithFadeEffect(message){
+function showMessageWithFadeEffect(message) {
     var fadeTarget = document.getElementById("message-invalid-country");
     fadeTarget.innerText = message;
     fadeTarget.style.display = 'inherit';
@@ -87,7 +91,8 @@ function showMessageWithFadeEffect(message){
         } else {
             clearInterval(fadeEffect);
         }
-    }, 50);}
+    }, 50);
+}
 
 document.getElementById('search').addEventListener('click', function () {
     start();
