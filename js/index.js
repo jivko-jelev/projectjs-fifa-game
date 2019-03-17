@@ -34,11 +34,11 @@ sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
     }
 
     function startingElevenHomeTeam(data) {
-        return `${data.shirt_number} ${data.name}` + (data.captain ? ' (CAP)' : '');
+        return `${data.shirt_number} ${data.name}` + (data.captain ? ' (C)' : '');
     }
 
     function startingElevenAwayTeam(data) {
-        return `${data.name}` + (data.captain ? ' (CAP) ' : ' ') + data.shirt_number;
+        return `${data.name}` + (data.captain ? ' (C) ' : ' ') + data.shirt_number;
     }
 
     function loadDialogWithStatistics(row) {
