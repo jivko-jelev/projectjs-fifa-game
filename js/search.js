@@ -1,3 +1,9 @@
+var searchByCountry = document.getElementById('country-name1');
+var country = document.getElementById('country-list1');
+var player = document.getElementById('player');
+var stadium = document.getElementById('stadium');
+
+
 function addNewRowToTable(data, index, player, stadium) {
     let column = 0;
     var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
@@ -27,52 +33,39 @@ function addNewRowToTable(data, index, player, stadium) {
 }
 
 function start() {
-    sendingAjaxRequest('http://worldcup.sfg.io/teams', function (data) {
-        let country = document.getElementById('country-name1').value.trim();
-        let player = document.getElementById('player').value.trim();
-        let stadium = document.getElementById('stadium').value.trim();
-        if (country !== '') {
-            SaveDataToLocalStorage({
-                'event': 'Search',
-                'date': Date(),
-                'data': {'Country': country, 'Player': player, 'Stadium': stadium}
-            });
+    let country = document.getElementById('country-name1').value.trim();
+    let player = document.getElementById('player').value.trim();
+    let stadium = document.getElementById('stadium').value.trim();
+    SaveDataToLocalStorage({
+        'event': 'Search',
+        'date': Date(),
+        'data': {'Country': country, 'Player': player, 'Stadium': stadium}
+    });
 
-            let fifaCode;
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].country.toLowerCase() === country.toLowerCase()) {
-                    fifaCode = data[i].fifa_code;
-                    break;
+    sendingAjaxRequest('http://worldcup.sfg.io/matches', function (data) {
+        var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
+        var mustClear = true;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].away_team.country.toLowerCase().indexOf(country.toLowerCase()) !== -1 ||
+                data[i].home_team.country.toLowerCase().indexOf(country.toLowerCase()) !== -1) {
+                var team = data[i].away_team.country.toLowerCase().indexOf(country.toLowerCase()) !== -1
+                    ? data[i].away_team_statistics.starting_eleven
+                    : data[i].home_team_statistics.starting_eleven;
+
+                for (let j = 0; j < team.length; j++) {
+                    if (team[j].name.toLowerCase().indexOf(player.toLowerCase()) !== -1 &&
+                        (data[i].location.toLowerCase().indexOf(stadium.toLowerCase()) !== -1)) {
+                        if (mustClear == true) {
+                            table.innerHTML = '';
+                            mustClear = false;
+                        }
+                        addNewRowToTable(data, i, team[j], stadium);
+                    }
                 }
             }
-            if (fifaCode !== undefined) {
-                sendingAjaxRequest('http://worldcup.sfg.io/matches/country?fifa_code=' + fifaCode, function (data) {
-                    var table = document.getElementById('statistics').getElementsByTagName('tbody')[0];
-                    var mustClear = true;
-                    for (var i = 0; i < data.length; i++) {
-                        var team = data[i].away_team.code === fifaCode
-                            ? data[i].away_team_statistics.starting_eleven
-                            : data[i].home_team_statistics.starting_eleven;
-                        for (let j = 0; j < team.length; j++) {
-                            if (team[j].name.toLowerCase().indexOf(player.toLowerCase()) !== -1 &&
-                                (data[i].location.toLowerCase().indexOf(stadium.toLowerCase()) !== -1)) {
-                                if (mustClear == true) {
-                                    table.innerHTML = '';
-                                    mustClear = false;
-                                }
-                                addNewRowToTable(data, i, team[j], stadium);
-                            }
-                        }
-                    }
-                    if (mustClear == true) {
-                        showMessageWithFadeEffect('No matches were found based on this criteria!');
-                    }
-                });
-            } else {
-                showMessageWithFadeEffect('Invalid Name of Country!');
-            }
-        } else {
-            showMessageWithFadeEffect('You must enter name of country!');
+        }
+        if (mustClear == true) {
+            showMessageWithFadeEffect('No matches were found based on this criteria!');
         }
     });
 }
@@ -97,11 +90,6 @@ function showMessageWithFadeEffect(message) {
 document.getElementById('search').addEventListener('click', function () {
     start();
 })
-
-var searchByCountry = document.getElementById('country-name1');
-var country = document.getElementById('country-list1');
-var player = document.getElementById('player');
-var stadium = document.getElementById('stadium');
 
 document.getElementById('clear-country').addEventListener('click', function () {
     searchByCountry.focus();
@@ -172,6 +160,8 @@ country.addEventListener('blur', function (e) {
 searchByCountry.addEventListener('keyup', function (e) {
     if (e.key === 'Escape') {
         country.style.display = "none";
+    } else if( e.key === 'Enter') {
+        document.getElementById('country-list1').style.display = 'none';
     } else {
         showListWithCountries();
     }
